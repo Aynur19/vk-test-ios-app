@@ -11,6 +11,7 @@ import UIKit
 final class ReviewsViewModel: NSObject {
     /// Замыкание, вызываемое при изменении `state`.
     var onStateChange: ((State) -> Void)?
+    var onChangeCellHeight: ((Int) -> Void)?
 
     private var state: State
     private let reviewsProvider: ReviewsProvider
@@ -79,12 +80,12 @@ private extension ReviewsViewModel {
     /// Метод, вызываемый при нажатии на кнопку "Показать полностью...".
     /// Снимает ограничение на количество строк текста отзыва (раскрывает текст).
     func showMoreReview(with id: UUID) {
-        guard
-            var item = state.items.first(where: { $0.id == id })
-        else {
-            return
-        }
+        guard let index = state.items.firstIndex(where: { $0.id == id }) else { return }
         
+        state.items[index].toggleTextExpander()
+        onChangeCellHeight?(index)
+        
+//        item.maxLines = .zero
 //        item.maxLines = .zero
 //        state.items[index] = item
 //        onStateChange?(state)

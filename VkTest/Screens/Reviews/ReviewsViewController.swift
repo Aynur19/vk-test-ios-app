@@ -64,6 +64,17 @@ private extension ReviewsViewController {
                 updateReviewsCount(count: viewModel.getReviewsCount())
             }
         }
+        
+        viewModel.onChangeCellHeight = { [weak self] index in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                
+                reviewsView.tableView.reloadRows(
+                    at: [IndexPath(row: index, section: 0)],
+                    with: .none
+                )
+            }
+        }
     }
     
     func updateReviewsCount(count: Int) {

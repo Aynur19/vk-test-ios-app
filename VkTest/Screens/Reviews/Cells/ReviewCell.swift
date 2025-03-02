@@ -110,8 +110,6 @@ struct ReviewCellConfig {
     /// Текст отзыва.
     let reviewText: NSAttributedString
     
-    /// Максимальное отображаемое количество строк текста. По умолчанию 3.
-    
     /// Время создания отзыва.
     let created: NSAttributedString
     
@@ -120,6 +118,10 @@ struct ReviewCellConfig {
 
     /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
     fileprivate let layout = ReviewCellLayout()
+    
+    func toggleTextExpander() {
+        layout.maxLines = (layout.maxLines == 3 ? 0 : 3)
+    }
 }
 
 // MARK: - TableCellConfig
@@ -135,6 +137,9 @@ extension ReviewCellConfig: TableCellConfig {
         cell.reviewTextLabel.attributedText = reviewText
         cell.reviewTextLabel.numberOfLines = layout.maxLines
         cell.createdLabel.attributedText = created
+        cell.showMoreButton.addAction(UIAction { _ in
+            onTapShowMore(id)
+        }, for: .touchUpInside)
         cell.config = self
     }
 
@@ -161,6 +166,7 @@ private final class ReviewCellLayout {
     fileprivate static let avatarSize = CGSize(width: 36.0, height: 36.0)
     fileprivate static let avatarCornerRadius = 18.0
     fileprivate static let photoCornerRadius = 8.0
+    fileprivate var maxLines = 3
 
     private static let photoSize = CGSize(width: 55.0, height: 66.0)
     private static let showMoreButtonSize = ReviewCellConfig.showMoreText.size()
@@ -173,7 +179,6 @@ private final class ReviewCellLayout {
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
     
-    private(set) var maxLines = 3
 
     // MARK: - Отступы
     /// Отступы от краёв ячейки до её содержимого.
