@@ -17,7 +17,7 @@ final class ReviewCell: UITableViewCell {
     
     fileprivate let avatarImageView = UIImageView()
     fileprivate let usernameLabel = UILabel()
-    
+    fileprivate let ratingImageView = UIImageView()
     fileprivate let reviewTextLabel = UILabel()
     fileprivate let createdLabel = UILabel()
     fileprivate let showMoreButton = UIButton()
@@ -40,7 +40,7 @@ final class ReviewCell: UITableViewCell {
         
         avatarImageView.frame = layout.avatarFrame
         usernameLabel.frame = layout.usernameLabelFrame
-        
+        ratingImageView.frame = layout.ratingFrame
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
@@ -53,6 +53,7 @@ private extension ReviewCell {
     func setupCell() {
         setupAvatarImageView()
         setupUsernameLabel()
+        setupRatingImageView()
         setupReviewTextLabel()
         setupCreatedLabel()
         setupShowMoreButton()
@@ -67,6 +68,10 @@ private extension ReviewCell {
     
     func setupUsernameLabel() {
         contentView.addSubview(usernameLabel)
+    }
+    
+    func setupRatingImageView() {
+        contentView.addSubview(ratingImageView)
     }
 
     func setupReviewTextLabel() {
@@ -99,6 +104,10 @@ struct ReviewCellConfig {
     /// Имя пользователя.
     let username: NSAttributedString
     
+    let rating: UIImage
+    
+    let photos: [UIImage]
+    
     /// Текст отзыва.
     let reviewText: NSAttributedString
     
@@ -124,6 +133,7 @@ extension ReviewCellConfig: TableCellConfig {
         
         cell.avatarImageView.image = avatar
         cell.usernameLabel.attributedText = username
+        cell.ratingImageView.image = rating
         cell.reviewTextLabel.attributedText = reviewText
         cell.reviewTextLabel.numberOfLines = maxLines
         cell.createdLabel.attributedText = created
@@ -160,7 +170,7 @@ private final class ReviewCellLayout {
     // MARK: - Фреймы
     private(set) var avatarFrame = CGRect.zero
     private(set) var usernameLabelFrame = CGRect.zero
-    
+    private(set) var ratingFrame = CGRect.zero
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
@@ -203,9 +213,10 @@ private final class ReviewCellLayout {
         var showShowMoreButton = false
 
         calculateAvatarImageLayout(config: config, width: width, maxX: &maxX)
-        calculateUsernameTextLayout(config: config, width: width, maxX: &maxX, maxY: &maxY)
-        calculateReviewTextLayout(config: config, width: width, maxX: &maxX, maxY: &maxY, showShowMoreButton: &showShowMoreButton)
-        calculateCreatedTextLayout(config: config, width: width, maxX: &maxX, maxY: &maxY)
+        calculateUsernameTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
+        calculateRatingImageLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
+        calculateReviewTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY, showShowMoreButton: &showShowMoreButton)
+        calculateCreatedTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
 
         return maxY + insets.bottom
     }
@@ -226,7 +237,7 @@ private final class ReviewCellLayout {
     private func calculateUsernameTextLayout(
         config: Config,
         width: CGFloat,
-        maxX: inout CGFloat,
+        maxX: CGFloat,
         maxY: inout CGFloat
     ) {
         let currentTextHeight = config.username.font()?.lineHeight ?? .zero
@@ -237,10 +248,23 @@ private final class ReviewCellLayout {
         maxY = usernameLabelFrame.maxY + usernameToRatingSpacing
     }
     
+    private func calculateRatingImageLayout(
+        config: Config,
+        width: CGFloat,
+        maxX: CGFloat,
+        maxY: inout CGFloat
+    ) {
+        ratingFrame = CGRect(
+            origin: CGPoint(x: maxX, y: maxY),
+            size: config.rating.size
+        )
+        maxY = ratingFrame.maxY + (config.photos.isEmpty ? ratingToTextSpacing : ratingToPhotosSpacing)
+    }
+    
     private func calculateReviewTextLayout(
         config: Config,
         width: CGFloat,
-        maxX: inout CGFloat,
+        maxX: CGFloat,
         maxY: inout CGFloat,
         showShowMoreButton: inout Bool
     ) {
@@ -278,7 +302,7 @@ private final class ReviewCellLayout {
     private func calculateCreatedTextLayout(
         config: Config,
         width: CGFloat,
-        maxX: inout CGFloat,
+        maxX: CGFloat,
         maxY: inout CGFloat
     ) {
         createdLabelFrame = CGRect(

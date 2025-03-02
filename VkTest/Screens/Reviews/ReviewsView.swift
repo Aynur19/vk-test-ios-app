@@ -21,7 +21,26 @@ final class ReviewsView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        tableView.frame = bounds.inset(by: safeAreaInsets)
+        let safeAreaInsets = safeAreaInsets
+        let bounds = bounds.inset(by: safeAreaInsets)
+
+        // Устанавливаем фреймы для таблицы и toolbar
+        addSubview(reviewsCountLabel)
+        
+        reviewsCountLabel.frame = CGRect(x: bounds.minX, y: bounds.maxY - 44, width: bounds.width, height: 44)
+        tableView.frame = CGRect(x: bounds.minX, y: bounds.minY, width: bounds.width, height: bounds.height - 44)
+    }
+    
+    private lazy var reviewsCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.reviewCount
+        label.textAlignment = .center
+        label.sizeToFit()
+        return label
+    }()
+    
+    func updateReviewsCount(count: Int) {
+        reviewsCountLabel.text = "\(count) отзывов"
     }
 }
 
@@ -34,6 +53,7 @@ private extension ReviewsView {
 
     func setupTableView() {
         addSubview(tableView)
+        
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCellConfig.reuseId)

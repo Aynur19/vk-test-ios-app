@@ -40,6 +40,10 @@ extension ReviewsViewModel {
         state.shouldLoad = false
         reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
     }
+    
+    func getReviewsCount() -> Int {
+        state.items.count
+    }
 }
 
 // MARK: - Private
@@ -79,14 +83,17 @@ private extension ReviewsViewModel {
     typealias ReviewItem = ReviewCellConfig
 
     func makeReviewItem(_ review: Review) -> ReviewItem {
-        
+        let avatar = getAvatar(urlStr: review.avatarUrlStr)
         let username = "\(review.firstName) \(review.lastName)".attributed(font: .username)
+        let rating = ratingRenderer.ratingImage(review.rating)
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         
         let item = ReviewItem(
-            avatar: getAvatar(urlStr: review.avatarUrlStr),
+            avatar: avatar,
             username: username,
+            rating: rating,
+            photos: [],
             reviewText: reviewText,
             created: created,
             onTapShowMore: showMoreReview
