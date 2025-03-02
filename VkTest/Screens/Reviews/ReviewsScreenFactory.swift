@@ -13,4 +13,8 @@ final class ReviewsScreenFactory {
         let controller = ReviewsViewController(viewModel: viewModel)
         return controller
     }
+
+    deinit {
+        print("deinit ReviewsScreenFactory")
+    }
 }

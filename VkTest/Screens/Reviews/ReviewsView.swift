@@ -18,6 +18,10 @@ final class ReviewsView: UIView {
         super.init(frame: frame)
         setupView()
     }
+    
+    deinit {
+        print("deinit ReviewsView")
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()

@@ -6,7 +6,7 @@
 //
 
 /// Модель отзыва.
-struct Review {
+struct ReviewDto {
     /// URL аватара пользователя
     let avatarUrlStr: String?
     
@@ -26,7 +26,7 @@ struct Review {
     let created: String
 }
 
-extension Review: Decodable {
+extension ReviewDto: Decodable {
     enum CodingKeys: String, CodingKey {
         case avatarUrlStr = "avatarUrl"
         case firstName = "first_name"
@@ -47,3 +47,30 @@ extension Review: Decodable {
         self.created = try container.decode(String.self, forKey: .created)
     }
 }
+
+//import Foundation
+//
+//struct ReviewModel: Identifiable {
+//    let id: UUID
+//    let avatarUrlStr: URL?
+//    let username: String
+//    let text: String
+//    let rating: Int
+//    let created: String
+//    
+//    init(
+//        id: UUID = UUID(),
+//        avatarUrlStr: String?,
+//        username: String,
+//        text: String,
+//        rating: Int,
+//        created: String
+//    ) {
+//        self.id = id
+//        self.avatarUrlStr = avatarUrlStr
+//        self.username = username
+//        self.text = text
+//        self.rating = rating
+//        self.created = created
+//    }
+//}

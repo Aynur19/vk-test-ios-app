@@ -44,7 +44,6 @@ final class ReviewCell: UITableViewCell {
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
-        
     }
 }
 
@@ -112,7 +111,6 @@ struct ReviewCellConfig {
     let reviewText: NSAttributedString
     
     /// Максимальное отображаемое количество строк текста. По умолчанию 3.
-    var maxLines = 3
     
     /// Время создания отзыва.
     let created: NSAttributedString
@@ -135,7 +133,7 @@ extension ReviewCellConfig: TableCellConfig {
         cell.usernameLabel.attributedText = username
         cell.ratingImageView.image = rating
         cell.reviewTextLabel.attributedText = reviewText
-        cell.reviewTextLabel.numberOfLines = maxLines
+        cell.reviewTextLabel.numberOfLines = layout.maxLines
         cell.createdLabel.attributedText = created
         cell.config = self
     }
@@ -174,6 +172,8 @@ private final class ReviewCellLayout {
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
+    
+    private(set) var maxLines = 3
 
     // MARK: - Отступы
     /// Отступы от краёв ячейки до её содержимого.
@@ -272,13 +272,13 @@ private final class ReviewCellLayout {
         
         if !config.reviewText.isEmpty() {
             // Высота текста с текущим ограничением по количеству строк.
-            let currentTextHeight = (config.reviewText.font()?.lineHeight ?? .zero) * CGFloat(config.maxLines)
+            let currentTextHeight = (config.reviewText.font()?.lineHeight ?? .zero) * CGFloat(maxLines)
             
             // Максимально возможная высота текста, если бы ограничения не было.
             let actualTextHeight = config.reviewText.boundingRect(width: width).size.height
             
             // Показываем кнопку "Показать полностью...", если максимально возможная высота текста больше текущей.
-            showShowMoreButton = config.maxLines != .zero && actualTextHeight > currentTextHeight
+            showShowMoreButton = maxLines != .zero && actualTextHeight > currentTextHeight
 
             reviewTextLabelFrame = CGRect(
                 origin: CGPoint(x: maxX, y: maxY),

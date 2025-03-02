@@ -6,9 +6,9 @@
 //
 
 /// Модель отзывов.
-struct Reviews: Decodable {
+struct ReviewsDto: Decodable {
     /// Модели отзывов.
-    let items: [Review]
+    let items: [ReviewDto]
     
     /// Общее количество отзывов.
     let count: Int

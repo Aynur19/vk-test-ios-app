@@ -14,6 +14,10 @@ final class ReviewsProvider {
     init(bundle: Bundle = .main) {
         self.bundle = bundle
     }
+    
+    deinit {
+        print("deinit ReviewsProvider")
+    }
 }
 
 // MARK: - Internal

@@ -14,10 +14,20 @@ final class ReviewsViewController: UIViewController {
     init(viewModel: ReviewsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        
+        NotificationCenter.default.removeObserver(self)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        print("deinit ReviewsViewController")
+        
+        
+        reviewsView.tableView.delegate = nil
+        reviewsView.tableView.dataSource = nil
     }
 
     override func loadView() {
@@ -30,6 +40,10 @@ final class ReviewsViewController: UIViewController {
         setupViewModel()
         viewModel.getReviews()
     }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//    }
 }
 
 // MARK: - Private
@@ -42,7 +56,7 @@ private extension ReviewsViewController {
     }
 
     func setupViewModel() {
-        viewModel.onStateChange = { _ in
+        viewModel.onStateChange = { [weak self] _ in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 

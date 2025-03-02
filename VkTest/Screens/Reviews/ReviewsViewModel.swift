@@ -28,6 +28,10 @@ final class ReviewsViewModel: NSObject {
         self.ratingRenderer = ratingRenderer
         self.decoder = decoder
     }
+    
+    deinit {
+        print("deinit ReviewsViewModel")
+    }
 }
 
 // MARK: - Internal
@@ -38,7 +42,17 @@ extension ReviewsViewModel {
     func getReviews() {
         guard state.shouldLoad else { return }
         state.shouldLoad = false
-        reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            
+            reviewsProvider.getReviews(
+                offset: state.offset,
+                completion: { [weak self] result in
+                    self?.gotReviews(result)
+                }
+            )
+        }
     }
     
     func getReviewsCount() -> Int {
@@ -52,8 +66,8 @@ private extension ReviewsViewModel {
     func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
         do {
             let data = try result.get()
-            let reviews = try decoder.decode(Reviews.self, from: data)
-            state.items += reviews.items.map(makeReviewItem)
+            let reviews = try decoder.decode(ReviewsDto.self, from: data)
+            state.items += reviews.items.map { makeReviewItem($0) }
             state.offset += state.limit
             state.shouldLoad = state.offset < reviews.count
         } catch {
@@ -66,15 +80,14 @@ private extension ReviewsViewModel {
     /// Снимает ограничение на количество строк текста отзыва (раскрывает текст).
     func showMoreReview(with id: UUID) {
         guard
-            let index = state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == id }),
-            var item = state.items[index] as? ReviewItem
+            var item = state.items.first(where: { $0.id == id })
         else {
             return
         }
         
-        item.maxLines = .zero
-        state.items[index] = item
-        onStateChange?(state)
+//        item.maxLines = .zero
+//        state.items[index] = item
+//        onStateChange?(state)
     }
 }
 
@@ -82,7 +95,7 @@ private extension ReviewsViewModel {
 private extension ReviewsViewModel {
     typealias ReviewItem = ReviewCellConfig
 
-    func makeReviewItem(_ review: Review) -> ReviewItem {
+    func makeReviewItem(_ review: ReviewDto) -> ReviewItem {
         let avatar = getAvatar(urlStr: review.avatarUrlStr)
         let username = "\(review.firstName) \(review.lastName)".attributed(font: .username)
         let rating = ratingRenderer.ratingImage(review.rating)
@@ -96,7 +109,9 @@ private extension ReviewsViewModel {
             photos: [],
             reviewText: reviewText,
             created: created,
-            onTapShowMore: showMoreReview
+            onTapShowMore: { [weak self] id in  // избавляемся от retain cycle, захватывая слабую ссылку
+                self?.showMoreReview(with: id)
+            }
         )
      
         return item
