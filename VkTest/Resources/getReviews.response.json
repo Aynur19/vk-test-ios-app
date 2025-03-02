@@ -2,6 +2,10 @@
     "count": 127,
     "items": [
         {
+            "avatar_url": "https://i.pinimg.com/736x/c4/b8/39/c4b839be257365510e914bd2806ba7e6.jpg",
+            "photos_urls": [
+                "https://i.pinimg.com/736x/ff/5e/7f/ff5e7f34edcd7f1c400948698103571f.jpg"
+            ],
             "first_name": "Иван",
             "last_name": "Петров",
             "rating": 5,
@@ -9,6 +13,8 @@
             "created": "1 час назад"
         },
         {
+            "avatar_url": "https://images.app.goo.gl/ekNTuBy5CPY6Jb5K9",
+            "photos_urls": [],
             "first_name": "Екатерина",
             "last_name": "Иванова",
             "rating": 3,
@@ -16,6 +22,11 @@
             "created": "12 минут назад"
         },
         {
+            "avatar_url": "https://images.app.goo.gl/7gYV3umpVayUHRpu8",
+            "photos_urls": [
+                "https://images.app.goo.gl/96yC725Zz6XmyR5v5",
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Евгения",
             "last_name": "Петрова",
             "rating": 4,
@@ -23,6 +34,10 @@
             "created": "35 минут назад"
         },
         {
+            "avatar_url": "https://images.app.goo.gl/SuBaa2gHbrkjtzqH9",
+            "photos_urls": [
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Илья",
             "last_name": "Петров",
             "rating": 2,
@@ -30,6 +45,10 @@
             "created": "минуту назад"
         },
         {
+            "avatar_url": "https://i.pinimg.com/736x/c4/b8/39/c4b839be257365510e914bd2806ba7e6.jpg",
+            "photos_urls": [
+                "https://images.app.goo.gl/96yC725Zz6XmyR5v5"
+            ],
             "first_name": "Никита",
             "last_name": "Иванов",
             "rating": 5,
@@ -37,6 +56,8 @@
             "created": "только что"
         },
         {
+            "avatar_url": "https://i.pinimg.com/736x/ff/5e/7f/ff5e7f34edcd7f1c400948698103571f.jpg",
+            "photos_urls": [],
             "first_name": "Олег",
             "last_name": "Николаев",
             "rating": 1,
@@ -44,15 +65,19 @@
             "created": "15 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [],
             "first_name": "Николай",
             "last_name": "Петров",
             "rating": 2,
             "text": "",
             "created": "вчера в 12:39"
         },
-
-
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://images.app.goo.gl/96yC725Zz6XmyR5v5"
+            ],
             "first_name": "Иван",
             "last_name": "Петров",
             "rating": 5,
@@ -60,6 +85,11 @@
             "created": "1 час назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://images.app.goo.gl/96yC725Zz6XmyR5v5",
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Екатерина",
             "last_name": "Иванова",
             "rating": 3,
@@ -67,6 +97,8 @@
             "created": "12 минут назад"
         },
         {
+            "avatar_url": "https://i.pinimg.com/736x/ff/5e/7f/ff5e7f34edcd7f1c400948698103571f.jpg",
+            "photos_urls": [],
             "first_name": "Евгения",
             "last_name": "Петрова",
             "rating": 4,
@@ -74,6 +106,8 @@
             "created": "35 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [],
             "first_name": "Илья",
             "last_name": "Петров",
             "rating": 2,
@@ -81,6 +115,12 @@
             "created": "минуту назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://i.pinimg.com/736x/c4/b8/39/c4b839be257365510e914bd2806ba7e6.jpg"
+            ],
+            "avatar_url": "",
+            "photos_urls": "",
             "first_name": "Никита",
             "last_name": "Иванов",
             "rating": 5,
@@ -88,6 +128,8 @@
             "created": "только что"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [],
             "first_name": "Олег",
             "last_name": "Николаев",
             "rating": 1,
@@ -95,15 +137,19 @@
             "created": "15 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Николай",
             "last_name": "Петров",
             "rating": 2,
             "text": "",
             "created": "вчера в 12:39"
         },
-
-
         {
+            "avatar_url": "https://i.pinimg.com/736x/ff/5e/7f/ff5e7f34edcd7f1c400948698103571f.jpg",
+            "photos_urls": [],
             "first_name": "Иван",
             "last_name": "Петров",
             "rating": 5,
@@ -111,6 +157,8 @@
             "created": "1 час назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [],
             "first_name": "Екатерина",
             "last_name": "Иванова",
             "rating": 3,
@@ -118,6 +166,10 @@
             "created": "12 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://i.pinimg.com/736x/c4/b8/39/c4b839be257365510e914bd2806ba7e6.jpg"
+            ],
             "first_name": "Евгения",
             "last_name": "Петрова",
             "rating": 4,
@@ -125,6 +177,10 @@
             "created": "35 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Илья",
             "last_name": "Петров",
             "rating": 2,
@@ -132,6 +188,8 @@
             "created": "минуту назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [],
             "first_name": "Никита",
             "last_name": "Иванов",
             "rating": 5,
@@ -139,6 +197,10 @@
             "created": "только что"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://i.pinimg.com/736x/ff/5e/7f/ff5e7f34edcd7f1c400948698103571f.jpg",
+            ],
             "first_name": "Олег",
             "last_name": "Николаев",
             "rating": 1,
@@ -146,6 +208,11 @@
             "created": "15 минут назад"
         },
         {
+            "avatar_url": "",
+            "photos_urls": [
+                "https://i.pinimg.com/736x/c4/b8/39/c4b839be257365510e914bd2806ba7e6.jpg",
+                "https://images.app.goo.gl/8KoqaM51MVEdX4kn7"
+            ],
             "first_name": "Николай",
             "last_name": "Петров",
             "rating": 2,

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D7E400E52D74DF9600A68BDD /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E400E42D74DF9600A68BDD /* ImageCacheManager.swift */; };
 		D7E5E3192D742D7E00D527C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5E3182D742D7E00D527C0 /* AppDelegate.swift */; };
 		D7E5E31B2D742D7E00D527C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5E31A2D742D7E00D527C0 /* SceneDelegate.swift */; };
 		D7E5E3222D742D8100D527C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7E5E3212D742D8100D527C0 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D7E400E42D74DF9600A68BDD /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		D7E5E3152D742D7E00D527C0 /* VkTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VkTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7E5E3182D742D7E00D527C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7E5E31A2D742D7E00D527C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				D7E5E31A2D742D7E00D527C0 /* SceneDelegate.swift */,
 				D7E5E3232D742D8100D527C0 /* LaunchScreen.storyboard */,
 				D7E5E3262D742D8200D527C0 /* Info.plist */,
+				D7E400E42D74DF9600A68BDD /* ImageCacheManager.swift */,
 			);
 			path = VkTest;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				D7E5E3662D74302600D527C0 /* RatingRenderer.swift in Sources */,
 				D7E5E3512D742E3B00D527C0 /* String+Ext.swift in Sources */,
 				D7E5E34C2D742DDB00D527C0 /* Fonts.swift in Sources */,
+				D7E400E52D74DF9600A68BDD /* ImageCacheManager.swift in Sources */,
 				D7E5E34A2D742DBA00D527C0 /* Colors.swift in Sources */,
 				D7E5E34F2D742E1600D527C0 /* NSAttributedString+Ext.swift in Sources */,
 				D7E5E35C2D742F2200D527C0 /* TableCellConfig.swift in Sources */,

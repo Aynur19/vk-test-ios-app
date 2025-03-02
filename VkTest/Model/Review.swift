@@ -10,6 +10,8 @@ struct ReviewDto {
     /// URL аватара пользователя
     let avatarUrlStr: String?
     
+    let photosUrls: [String]
+    
     /// Имя  пользователя
     let firstName: String
     
@@ -28,7 +30,8 @@ struct ReviewDto {
 
 extension ReviewDto: Decodable {
     enum CodingKeys: String, CodingKey {
-        case avatarUrlStr = "avatarUrl"
+        case avatarUrlStr = "avatar_url"
+        case photosUrls = "photos_urls"
         case firstName = "first_name"
         case lastName = "last_name"
         case text = "text"
@@ -40,6 +43,7 @@ extension ReviewDto: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.avatarUrlStr = try container.decodeIfPresent(String.self, forKey: .avatarUrlStr)
+        self.photosUrls = try container.decode([String].self, forKey: .photosUrls)
         self.firstName = try container.decode(String.self, forKey: .firstName)
         self.lastName = try container.decode(String.self, forKey: .lastName)
         self.text = try container.decode(String.self, forKey: .text)
@@ -47,30 +51,3 @@ extension ReviewDto: Decodable {
         self.created = try container.decode(String.self, forKey: .created)
     }
 }
-
-//import Foundation
-//
-//struct ReviewModel: Identifiable {
-//    let id: UUID
-//    let avatarUrlStr: URL?
-//    let username: String
-//    let text: String
-//    let rating: Int
-//    let created: String
-//    
-//    init(
-//        id: UUID = UUID(),
-//        avatarUrlStr: String?,
-//        username: String,
-//        text: String,
-//        rating: Int,
-//        created: String
-//    ) {
-//        self.id = id
-//        self.avatarUrlStr = avatarUrlStr
-//        self.username = username
-//        self.text = text
-//        self.rating = rating
-//        self.created = created
-//    }
-//}

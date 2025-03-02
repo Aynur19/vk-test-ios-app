@@ -22,6 +22,8 @@ final class ReviewCell: UITableViewCell {
     fileprivate let createdLabel = UILabel()
     fileprivate let showMoreButton = UIButton()
     
+    fileprivate var photos = [UIImageView]()
+    
     private let vStackView = UIStackView()
     private let hStackView = UIStackView()
 
@@ -44,6 +46,7 @@ final class ReviewCell: UITableViewCell {
         reviewTextLabel.frame = layout.reviewTextLabelFrame
         createdLabel.frame = layout.createdLabelFrame
         showMoreButton.frame = layout.showMoreButtonFrame
+        
     }
 }
 
@@ -56,6 +59,7 @@ private extension ReviewCell {
         setupReviewTextLabel()
         setupCreatedLabel()
         setupShowMoreButton()
+        setupPhotosViews()
     }
     
     func setupAvatarImageView() {
@@ -87,6 +91,19 @@ private extension ReviewCell {
         showMoreButton.contentVerticalAlignment = .fill
         showMoreButton.setAttributedTitle(Config.showMoreText, for: .normal)
     }
+    
+    private func setupPhotosViews() {
+        for _ in 0..<ReviewCellLayout.maxPhotoCount {
+            let imageView = UIImageView()
+            imageView.layer.cornerRadius = ReviewCellLayout.photoCornerRadius
+            imageView.contentMode = .scaleAspectFit
+            imageView.clipsToBounds = true
+            imageView.backgroundColor = .lightGray // Заглушка
+            imageView.isHidden = true // Скрываем, пока нет изображений
+            addSubview(imageView)
+            photos.append(imageView)
+        }
+    }
 }
 
 // MARK: - Config
@@ -98,14 +115,15 @@ struct ReviewCellConfig {
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
     let id = UUID()
     
-    let avatar: UIImage
+    let avatar: String
     
     /// Имя пользователя.
     let username: NSAttributedString
     
     let rating: UIImage
     
-    let photos: [UIImage]
+    let photosUrls: [String]
+    let photos: [UIImage] = []
     
     /// Текст отзыва.
     let reviewText: NSAttributedString
@@ -115,6 +133,8 @@ struct ReviewCellConfig {
     
     /// Замыкание, вызываемое при нажатии на кнопку "Показать полностью...".
     let onTapShowMore: (UUID) -> Void
+    
+    let onDidLoadPhotos: (UUID) -> Void
 
     /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
     fileprivate let layout = ReviewCellLayout()
@@ -131,7 +151,7 @@ extension ReviewCellConfig: TableCellConfig {
     func update(cell: UITableViewCell) {
         guard let cell = cell as? ReviewCell else { return }
         
-        cell.avatarImageView.image = avatar
+        cell.avatarImageView.image =  UIImage(named: "Images/avatar")!
         cell.usernameLabel.attributedText = username
         cell.ratingImageView.image = rating
         cell.reviewTextLabel.attributedText = reviewText
@@ -141,6 +161,14 @@ extension ReviewCellConfig: TableCellConfig {
             onTapShowMore(id)
         }, for: .touchUpInside)
         cell.config = self
+        
+        ImageCacheManager.shared.fetchImage(from: avatar) { image in
+            guard let image else { return }
+                
+            DispatchQueue.main.async {
+                cell.avatarImageView.image = image
+            }
+        }
     }
 
     /// Метод, возвращаюший высоту ячейки с данным ограничением по размеру.
@@ -166,8 +194,9 @@ private final class ReviewCellLayout {
     fileprivate static let avatarSize = CGSize(width: 36.0, height: 36.0)
     fileprivate static let avatarCornerRadius = 18.0
     fileprivate static let photoCornerRadius = 8.0
+    fileprivate static var maxPhotoCount = 5
     fileprivate var maxLines = 3
-
+    
     private static let photoSize = CGSize(width: 55.0, height: 66.0)
     private static let showMoreButtonSize = ReviewCellConfig.showMoreText.size()
 
@@ -178,6 +207,7 @@ private final class ReviewCellLayout {
     private(set) var reviewTextLabelFrame = CGRect.zero
     private(set) var showMoreButtonFrame = CGRect.zero
     private(set) var createdLabelFrame = CGRect.zero
+    private(set) var photosFrames = [CGRect](repeating: CGRect.zero, count: maxPhotoCount)
     
 
     // MARK: - Отступы
@@ -220,6 +250,7 @@ private final class ReviewCellLayout {
         calculateAvatarImageLayout(config: config, width: width, maxX: &maxX)
         calculateUsernameTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
         calculateRatingImageLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
+        calculatePhotosImageLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
         calculateReviewTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY, showShowMoreButton: &showShowMoreButton)
         calculateCreatedTextLayout(config: config, width: width, maxX: maxX, maxY: &maxY)
 
@@ -264,6 +295,25 @@ private final class ReviewCellLayout {
             size: config.rating.size
         )
         maxY = ratingFrame.maxY + (config.photos.isEmpty ? ratingToTextSpacing : ratingToPhotosSpacing)
+    }
+    
+    private func calculatePhotosImageLayout(
+        config: Config,
+        width: CGFloat,
+        maxX: CGFloat,
+        maxY: inout CGFloat
+    ) {
+        var localMaxX = maxX
+        
+        for photoIdx in config.photos.indices {
+            photosFrames[photoIdx] = CGRect(
+                origin: CGPoint(x: localMaxX, y: maxY),
+                size: config.rating.size
+            )
+            
+            localMaxX = photosFrames[photoIdx].maxX + photosSpacing
+            maxY = photosFrames[photoIdx].maxY + photosToTextSpacing
+        }
     }
     
     private func calculateReviewTextLayout(

@@ -84,11 +84,6 @@ private extension ReviewsViewModel {
         
         state.items[index].toggleTextExpander()
         onChangeCellHeight?(index)
-        
-//        item.maxLines = .zero
-//        item.maxLines = .zero
-//        state.items[index] = item
-//        onStateChange?(state)
     }
 }
 
@@ -97,34 +92,30 @@ private extension ReviewsViewModel {
     typealias ReviewItem = ReviewCellConfig
 
     func makeReviewItem(_ review: ReviewDto) -> ReviewItem {
-        let avatar = getAvatar(urlStr: review.avatarUrlStr)
         let username = "\(review.firstName) \(review.lastName)".attributed(font: .username)
         let rating = ratingRenderer.ratingImage(review.rating)
         let reviewText = review.text.attributed(font: .text)
         let created = review.created.attributed(font: .created, color: .created)
         
         let item = ReviewItem(
-            avatar: avatar,
+            avatar: review.avatarUrlStr ?? "",
             username: username,
             rating: rating,
-            photos: [],
+            photosUrls: review.photosUrls,
             reviewText: reviewText,
             created: created,
             onTapShowMore: { [weak self] id in  // избавляемся от retain cycle, захватывая слабую ссылку
                 self?.showMoreReview(with: id)
+            },
+            onDidLoadPhotos: { [weak self] id in
+                guard let self,
+                      let index = state.items.firstIndex(where: { $0.id == id })
+                else { return }
+                onChangeCellHeight?(index)
             }
         )
-     
-        return item
-    }
-    
-    
-    private func getAvatar(urlStr: String?) -> UIImage {
-        if let urlStr {
-            return UIImage(named: "Images/avatar")!
-        }
         
-        return UIImage(named: "Images/avatar")!
+        return item
     }
 }
 

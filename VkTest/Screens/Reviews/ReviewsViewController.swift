@@ -40,10 +40,6 @@ final class ReviewsViewController: UIViewController {
         setupViewModel()
         viewModel.getReviews()
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//    }
 }
 
 // MARK: - Private
@@ -61,7 +57,7 @@ private extension ReviewsViewController {
                 guard let self else { return }
                 
                 reviewsView.tableView.reloadData()
-                updateReviewsCount(count: viewModel.getReviewsCount())
+                reviewsView.updateReviewsCount(count: viewModel.getReviewsCount())
             }
         }
         
