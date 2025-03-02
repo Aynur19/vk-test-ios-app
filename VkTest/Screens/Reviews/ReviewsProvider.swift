@@ -21,10 +21,8 @@ extension ReviewsProvider {
     typealias GetReviewsResult = Result<Data, GetReviewsError>
 
     enum GetReviewsError: Error {
-
         case badURL
         case badData(Error)
-
     }
 
     func getReviews(offset: Int = 0, completion: @escaping (GetReviewsResult) -> Void) {

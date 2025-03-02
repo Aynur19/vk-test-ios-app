@@ -8,7 +8,6 @@
 import UIKit
 
 final class ReviewsView: UIView {
-
     let tableView = UITableView()
 
     required init?(coder: NSCoder) {

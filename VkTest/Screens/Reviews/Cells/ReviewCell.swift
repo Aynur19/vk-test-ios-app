@@ -7,60 +7,12 @@
 
 import UIKit
 
-/// Конфигурация ячейки. Содержит данные для отображения в ячейке.
-struct ReviewCellConfig {
-    /// Идентификатор для переиспользования ячейки.
-    static let reuseId = String(describing: ReviewCellConfig.self)
-
-    /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
-    let id = UUID()
-    
-    /// Текст отзыва.
-    let reviewText: NSAttributedString
-    
-    /// Максимальное отображаемое количество строк текста. По умолчанию 3.
-    var maxLines = 3
-    
-    /// Время создания отзыва.
-    let created: NSAttributedString
-    
-    /// Замыкание, вызываемое при нажатии на кнопку "Показать полностью...".
-    let onTapShowMore: (UUID) -> Void
-
-    /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
-    fileprivate let layout = ReviewCellLayout()
-}
-
-// MARK: - TableCellConfig
-extension ReviewCellConfig: TableCellConfig {
-    /// Метод обновления ячейки.
-    /// Вызывается из `cellForRowAt:` у `dataSource` таблицы.
-    func update(cell: UITableViewCell) {
-        guard let cell = cell as? ReviewCell else { return }
-        cell.reviewTextLabel.attributedText = reviewText
-        cell.reviewTextLabel.numberOfLines = maxLines
-        cell.createdLabel.attributedText = created
-        cell.config = self
-    }
-
-    /// Метод, возвращаюший высоту ячейки с данным ограничением по размеру.
-    /// Вызывается из `heightForRowAt:` делегата таблицы.
-    func height(with size: CGSize) -> CGFloat {
-        layout.height(config: self, maxWidth: size.width)
-    }
-}
-
-
-// MARK: - Private
-private extension ReviewCellConfig {
-    /// Текст кнопки "Показать полностью...".
-    static let showMoreText = "Показать полностью..."
-        .attributed(font: .showMore, color: .showMore)
-}
+// MARK: - Typealia
+fileprivate typealias Config = ReviewCellConfig
+fileprivate typealias Layout = ReviewCellLayout
 
 // MARK: - Cell
 final class ReviewCell: UITableViewCell {
-
     fileprivate var config: Config?
 
     fileprivate let reviewTextLabel = UILabel()
@@ -109,6 +61,58 @@ private extension ReviewCell {
     }
 }
 
+// MARK: - Config
+/// Конфигурация ячейки. Содержит данные для отображения в ячейке.
+struct ReviewCellConfig {
+    /// Идентификатор для переиспользования ячейки.
+    static let reuseId = String(describing: ReviewCellConfig.self)
+
+    /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
+    let id = UUID()
+    
+    /// Текст отзыва.
+    let reviewText: NSAttributedString
+    
+    /// Максимальное отображаемое количество строк текста. По умолчанию 3.
+    var maxLines = 3
+    
+    /// Время создания отзыва.
+    let created: NSAttributedString
+    
+    /// Замыкание, вызываемое при нажатии на кнопку "Показать полностью...".
+    let onTapShowMore: (UUID) -> Void
+
+    /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
+    fileprivate let layout = ReviewCellLayout()
+}
+
+// MARK: - TableCellConfig
+extension ReviewCellConfig: TableCellConfig {
+    /// Метод обновления ячейки.
+    /// Вызывается из `cellForRowAt:` у `dataSource` таблицы.
+    func update(cell: UITableViewCell) {
+        guard let cell = cell as? ReviewCell else { return }
+        cell.reviewTextLabel.attributedText = reviewText
+        cell.reviewTextLabel.numberOfLines = maxLines
+        cell.createdLabel.attributedText = created
+        cell.config = self
+    }
+
+    /// Метод, возвращаюший высоту ячейки с данным ограничением по размеру.
+    /// Вызывается из `heightForRowAt:` делегата таблицы.
+    func height(with size: CGSize) -> CGFloat {
+        layout.height(config: self, maxWidth: size.width)
+    }
+}
+
+// MARK: - Private
+private extension ReviewCellConfig {
+    /// Текст кнопки "Показать полностью...".
+    static let showMoreText = "Показать полностью..."
+        .attributed(font: .showMore, color: .showMore)
+}
+
+
 // MARK: - Layout
 /// Класс, в котором происходит расчёт фреймов для сабвью ячейки отзыва.
 /// После расчётов возвращается актуальная высота ячейки.
@@ -119,7 +123,7 @@ private final class ReviewCellLayout {
     fileprivate static let photoCornerRadius = 8.0
 
     private static let photoSize = CGSize(width: 55.0, height: 66.0)
-    private static let showMoreButtonSize = Config.showMoreText.size()
+    private static let showMoreButtonSize = ReviewCellConfig.showMoreText.size()
 
     // MARK: - Фреймы
     private(set) var reviewTextLabelFrame = CGRect.zero
@@ -197,7 +201,3 @@ private final class ReviewCellLayout {
         return createdLabelFrame.maxY + insets.bottom
     }
 }
-
-// MARK: - Typealia
-fileprivate typealias Config = ReviewCellConfig
-fileprivate typealias Layout = ReviewCellLayout

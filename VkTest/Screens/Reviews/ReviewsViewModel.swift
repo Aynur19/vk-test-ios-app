@@ -64,7 +64,10 @@ private extension ReviewsViewModel {
         guard
             let index = state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == id }),
             var item = state.items[index] as? ReviewItem
-        else { return }
+        else {
+            return
+        }
+        
         item.maxLines = .zero
         state.items[index] = item
         onStateChange?(state)
